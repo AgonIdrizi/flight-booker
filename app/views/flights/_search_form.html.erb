@@ -1,0 +1,13 @@
+<%= form_tag(flights_path, method: 'get') do %>
+  <%= label_tag :from %>
+ <%=  select_tag 'from', options_from_collection_for_select(Airport.all ,:id, :airport_code, {class: "form-control"}) %>
+ <%= label_tag :to %>
+ <%= select_tag 'to', options_from_collection_for_select( Airport.all ,:id, :airport_code, {class: "form-control"}) %>
+ <%= label_tag :date %>
+ <%= select_tag "start_date" , options_from_collection_for_select(Flight.get_flight_dates, 'start_date',
+ :start_date_formated) %>
+
+ <%=label_tag :passengers %>
+ <%= select_tag 'Passengers', options_for_select(["1","2","3","4"],"1") %>
+ <%= submit_tag 'Search', {class: 'btn btn-primary'} %>
+<% end %>

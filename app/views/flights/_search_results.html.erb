@@ -1,0 +1,12 @@
+
+<%= form_tag(new_booking_path, action: 'new') do %>
+  <%  @flights.each do |flight| %>
+    <div class = 'form-flight' >
+  	  <%= radio_button("flight","id",flight.id) %>
+      <%= flight.start_date %>
+    </div>
+   
+  <% end %>
+
+  <%= submit_tag 'Choose flight' %>
+<% end %>
