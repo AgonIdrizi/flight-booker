@@ -1,0 +1,30 @@
+new booking
+
+    <div class = 'form-flight' >
+  	  <%= @flight.id %>
+  	  <%= @flight.from_airport.airport_code %>
+  	  <%= @flight.to_airport.airport_code %>
+      <%= @flight.start_date.to_date %>
+      <%= @flight.start_hour %>
+    </div><br>
+
+<%= form_for @booking do |f| %>
+  <%= f.hidden_field :flight_id, :value => @flight.id %>
+  <%= f.hidden_field :num_of_pass, :value => @num_of_pass %>
+  
+    <% num_of_pass= 1  %>
+      
+      <%= f.fields_for :passengers do |passenger_fields| %>
+        <h3>Passenger<%= num_of_pass%></h3>
+          <% num_of_pass+=1 %>
+        <%= passenger_fields.label :name %> 
+        <%= passenger_fields.text_field :name, class: 'form-control' %><br>
+
+        <%= passenger_fields.label :email %> 
+        <%= passenger_fields.email_field :email, class: 'form-control' %>
+      <% end %>   
+    
+   
+  <br>
+  <%= f.submit 'Create booking', class: 'btn btn-primary' %>
+<% end %>

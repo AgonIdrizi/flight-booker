@@ -1,9 +1,14 @@
 
-<%= form_tag(new_booking_path, action: 'new') do %>
+<%= form_tag({controller: 'bookings', action:'new'}, method: 'get', class: 'Bookings') do %>
+  <%= hidden_field_tag 'passenger' ,"#{@passengers}" %>
   <%  @flights.each do |flight| %>
     <div class = 'form-flight' >
   	  <%= radio_button("flight","id",flight.id) %>
-      <%= flight.start_date %>
+  	  <%= flight.from_airport.airport_code %>
+  	  <%= flight.to_airport.airport_code %>
+      <%= flight.start_date.to_date %>
+      <%= flight.start_hour %>
+
     </div>
    
   <% end %>

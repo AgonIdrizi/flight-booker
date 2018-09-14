@@ -1,7 +1,12 @@
 class FlightsController < ApplicationController
 	def index
-	 @flights = Flight.search(params)
+	 if !params.empty?
+	   @flights = Flight.search(params)
 		#debugger
+	 else
+		render 'index'
+	 end
+	 @passengers = params[:passengers]
 		
 	end
 

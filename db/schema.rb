@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_10_112441) do
+ActiveRecord::Schema.define(version: 2018_09_13_124326) do
 
   create_table "airports", force: :cascade do |t|
     t.string "airport_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "flight_id"
+    t.index ["flight_id"], name: "index_bookings_on_flight_id"
   end
 
   create_table "flights", force: :cascade do |t|
@@ -25,6 +32,32 @@ ActiveRecord::Schema.define(version: 2018_09_10_112441) do
     t.string "flight_duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "start_hour"
+  end
+
+  create_table "passenger_bookings", force: :cascade do |t|
+    t.integer "booking_id"
+    t.integer "passenger_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_passenger_bookings_on_booking_id"
+    t.index ["passenger_id"], name: "index_passenger_bookings_on_passenger_id"
+  end
+
+  create_table "passengers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.integer "passenger_id"
+    t.integer "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_tickets_on_booking_id"
+    t.index ["passenger_id"], name: "index_tickets_on_passenger_id"
   end
 
 end
