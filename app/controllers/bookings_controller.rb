@@ -1,8 +1,15 @@
 class BookingsController < ApplicationController
+	
+
 	def new
-		@flight = Flight.find_by(id: params[:flight][:id])
-		@booking = Booking.new
-		params[:passenger].to_i.times { @booking.passengers.build }
+		if params[:flight].nil? #user must select a flight otherwise will be redirected with a flash message
+			flash[:danger] = "You must select a flight"
+			redirect_back fallback_location: root_path
+		else
+		  @flight = Flight.find_by(id: params[:flight])
+		  @booking = Booking.new
+		  params[:passengers].to_i.times { @booking.passengers.build }
+		end
 
 		
 				
@@ -15,17 +22,33 @@ class BookingsController < ApplicationController
 
 	def create
 		@flight = Flight.find(booking_params[:flight_id])
-		@booking = Booking.new(flight_id: booking_params[:flight_id]) 
+		@booking = Booking.new(booking_params) 
 
-		booking_params[:passengers_attributes].each do |k,v|
-			@booking.passengers.build(name: params[:booking][:passengers_attributes][k][:name],
-									  email: params[:booking][:passengers_attributes][k][:email])
-		end
 		if @booking.save
 			flash[:success] = "Booking successful"
 			redirect_to booking_path(@booking)
 		else
 			flash[:danger] = "Flight booking error!"
+			render 'new'
+		end
+
+	end
+
+	def edit
+		@booking = Booking.find_by(id: params[:id])
+
+		@booking.passengers
+	end
+
+	def update
+		@booking = Booking.find_by(id: params[:id])
+		#@booking.passengers.update_attributes(params[:booking][:passengers_attributes])
+		
+		if @booking.update!(booking_params)
+		  flash[:success] = "Booking successfuly updated"
+			redirect_to booking_path(@booking)
+		else
+			flash[:danger] = "update booking error!"
 			render 'new'
 		end
 
@@ -38,7 +61,7 @@ class BookingsController < ApplicationController
 	private
 
 		def booking_params
-		  params.require(:booking).permit(:flight_id, :passengers_attributes => [:name,:email])
+		  params.require(:booking).permit(:flight_id, :passengers_attributes => [:id,:name,:email])
 		end
 
 	  

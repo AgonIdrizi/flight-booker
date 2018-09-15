@@ -1,0 +1,19 @@
+<%= form_for @booking do |f| %>
+  
+  
+    <% num_of_pass= 1  %>
+      
+      <%= f.fields_for :passengers do |passenger_fields| %>
+        <h3>Passenger<%= num_of_pass%></h3>
+          <% num_of_pass+=1 %>
+        <%= passenger_fields.label :name %> 
+        <%= passenger_fields.text_field :name, class: 'form-control' %><br>
+
+        <%= passenger_fields.label :email %> 
+        <%= passenger_fields.email_field :email, class: 'form-control' %>
+      <% end %>   
+    
+   
+  <br>
+  <%= f.submit 'Update booking', class: 'btn btn-primary' %>
+<% end %>

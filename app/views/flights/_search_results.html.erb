@@ -1,17 +1,32 @@
+<div class="col-sm-offset-3 col-sm-9 blank">
+      </div>
 
-<%= form_tag({controller: 'bookings', action:'new'}, method: 'get', class: 'Bookings') do %>
-  <%= hidden_field_tag 'passenger' ,"#{@passengers}" %>
-  <%  @flights.each do |flight| %>
-    <div class = 'form-flight' >
-  	  <%= radio_button("flight","id",flight.id) %>
-  	  <%= flight.from_airport.airport_code %>
-  	  <%= flight.to_airport.airport_code %>
-      <%= flight.start_date.to_date %>
-      <%= flight.start_hour %>
+      <%= form_tag(new_booking_path, method: :get) do %>
+        <div class="col-sm-offset-3 col-sm-9">
+          <h2>Search Resuls</h2>
+          <table class="table table-bordered table-striped">
+            <tr>
+              <th>#</th><th>From</th><th>To</th><th>Departure</th>
+            </tr>
+            <tbody>
+              <% @flights.each do |f| %>
+                <tr>
+                  <td><%= radio_button_tag(:flight, f.id)%></td>
+                  <td><%= f.from_airport.airport_code %></td>
+                  <td><%= f.to_airport.airport_code %></td>
+                  <td><%= f.start_date.to_date %></td>
+                </tr>
+              <% end %>
+              <%= hidden_field_tag 'passengers', "#{@passengers}"%>
+              </tbody>
 
-    </div>
-   
-  <% end %>
-
-  <%= submit_tag 'Choose flight' %>
-<% end %>
+          </table>
+          <tr>
+              <%= submit_tag "Continue", class: "btn btn-primary btn-block" %>
+          </tr>
+        </div>
+      <% end %>
+    
+    
+    
+    

@@ -1,5 +1,6 @@
 class FlightsController < ApplicationController
 	def index
+		@airport_options = Airport.all
 	 if !params.empty?
 	   @flights = Flight.search(params)
 		#debugger

@@ -7,7 +7,7 @@ def generate_code(number) #creates random 3 strings for airport-code
 end
 
 
-13.times do |n|
+5.times do |n|
 code = generate_code(3)
 Airport.create!(airport_code: code)
 end
