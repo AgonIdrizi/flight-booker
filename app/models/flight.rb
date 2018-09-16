@@ -15,22 +15,29 @@ class Flight < ApplicationRecord
 	  start_date.strftime("%d/%m/%Y")
 	end
 
-	def self.search(params) # search flights by submited params from search-form
+	def self.search(params) # search flights by submited params from flight-search-form
 		date = params[:start_date]
 		if date.nil?
 			date = DateTime.now
 		else
 			date = params[:start_date].to_date
 		end
-		
+		date_end = date.tomorrow
 
-	   where("start_airport_id = ? AND finish_airport_id = ? OR start_date BETWEEN ? AND ?",
-	   params[:from], params[:to], date.beginning_of_day, date.end_of_day)
+	   where(start_airport_id: params[:from],  finish_airport_id: params[:to],
+	     start_date: date..date_end )
+	    #date.beginning_of_day, date.end_of_day
 	end
 
 	def convert_DateTime_to_Date_and_extract_hour_part
 		self.start_hour = start_date.to_formatted_s(:time)
 		self.start_date = start_date.to_date
+
+	end
+
+
+	def self.check_for_same_airport_values(params)
+	 !params[:to].to_s.blank? && !params[:to].to_s.blank? && params[:to] == params[:from]
 
 	end
 

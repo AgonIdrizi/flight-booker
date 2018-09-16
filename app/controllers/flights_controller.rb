@@ -1,18 +1,16 @@
 class FlightsController < ApplicationController
 	def index
-		@airport_options = Airport.all
-	 if !params.empty?
-	   @flights = Flight.search(params)
-		#debugger
-	 else
-		render 'index'
-	 end
-	 @passengers = params[:passengers]
-		
+	  @airport_options = Airport.all
+	  @passengers = params[:passengers]
+	    if params.to_s.blank?
+	      redirect_to root_path
+	    else
+	      @flights = Flight.search(params)
+	      flash.now[:danger] = 'Nothing found' if @flights.length == 0
+	 	  flash.now[:danger] = 'Airports codes must be different' if Flight.check_for_same_airport_values(params)
+	 	  	
+		  render 'index'
+		end	    	    
 	end
 
-
-	
-
-	#params.require(:flight).permit(:start_airport_id,:finish_airport_id)
 end
