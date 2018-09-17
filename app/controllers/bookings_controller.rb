@@ -2,17 +2,14 @@ class BookingsController < ApplicationController
 	
 
 	def new
-		if params[:flight].nil? #user must select a flight otherwise will be redirected with a flash message
-			flash[:danger] = "You must select a flight"
-			redirect_back fallback_location: root_path
-		else
-		  @flight = Flight.find_by(id: params[:flight])
-		  @booking = Booking.new
-		  params[:passengers].to_i.times { @booking.passengers.build }
-		end
-
-		
-				
+	  if params[:flight].nil? #user must select a flight otherwise will be redirected with a flash message
+		flash[:danger] = "You must select a flight"
+		redirect_back fallback_location: root_path
+	  else
+		@flight = Flight.find_by(id: params[:flight])
+	    @booking = Booking.new
+		params[:passengers].to_i.times { @booking.passengers.build }
+	  end			
 	end
 
 	def show
@@ -24,11 +21,11 @@ class BookingsController < ApplicationController
 		@flight = Flight.find(booking_params[:flight_id])
 		@booking = Booking.new(booking_params) 
 
-		if @booking.save
+		if @booking.save 
 			flash[:success] = "Booking successful"
 			redirect_to booking_path(@booking)
 		else
-			flash[:danger] = "Flight booking error!"
+			flash.now[:danger] = "Flight booking error!You must enter passenger infos"
 			render 'new'
 		end
 
