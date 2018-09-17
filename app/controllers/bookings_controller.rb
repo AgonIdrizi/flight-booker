@@ -25,7 +25,7 @@ class BookingsController < ApplicationController
 			flash[:success] = "Booking successful"
 			redirect_to booking_path(@booking)
 		else
-			flash.now[:danger] = "Flight booking error!You must enter passenger infos"
+			flash.now[:danger] = "Flight booking error!You must enter passenger infos, GO Back"
 			render 'new'
 		end
 
