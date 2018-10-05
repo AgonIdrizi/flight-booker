@@ -1,25 +1,28 @@
 class Booking < ApplicationRecord
-	#has_many :tickets
+	
 	belongs_to :flight , optional: true
 	has_many :passenger_bookings  
 	has_many :passengers, through: :passenger_bookings , dependent: :destroy
+	has_many :tickets
+	after_save :create_tickets
 	
-	before_save :reject_if_nested_atributes_are_blank
 	
 
-	accepts_nested_attributes_for :passengers,  reject_if: :reject_nested_blank_attr , allow_destroy: true
-
+	accepts_nested_attributes_for :passengers, allow_destroy: true
+	def create_tickets #creates ticket for each passenger of that booking
+		self.passengers.each do |passenger|
+		  self.tickets.create!(passenger_id: passenger.id)
+		end
+	end
 	private
 
-	def reject_nested_blank_attr(att)
+	
+
+	def reject_nested_blank_attributes(att)
 	  att[:email].blank?
 	end
 
-	def reject_if_nested_atributes_are_blank
-	  if self.passenger_bookings.empty?
-	  	self.destroy
-	  end
-	end
+	
 
 
 end

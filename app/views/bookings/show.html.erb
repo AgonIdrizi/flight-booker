@@ -12,7 +12,9 @@
             <dd><%= @booking.flight.start_date
                     .strftime("#{@booking.flight.start_hour} - #{@booking.flight.start_date.day.ordinalize} %B %Y")%>
             </dd>
+          <dt><%= link_to 'Show tickets', "#" %></dt>
         </dl>
+
       </div>
       <table class="table centered">
         <tr>

@@ -19,9 +19,13 @@ class BookingsController < ApplicationController
 
 	def create
 		@flight = Flight.find(booking_params[:flight_id])
-		@booking = Booking.new(booking_params) 
-
-		if @booking.save 
+		@booking = Booking.new(booking_params)
+		#debugger
+		if @booking.save
+			@booking.passengers.each do |passenger|
+			  PassengerMailer.new_booking(passenger).deliver_now!
+			end
+			#create_tickets(@booking)
 			flash[:success] = "Booking successful"
 			redirect_to booking_path(@booking)
 		else
@@ -39,7 +43,7 @@ class BookingsController < ApplicationController
 
 	def update
 		@booking = Booking.find_by(id: params[:id])
-		#@booking.passengers.update_attributes(params[:booking][:passengers_attributes])
+		
 		
 		if @booking.update!(booking_params)
 		  flash[:success] = "Booking successfuly updated"
@@ -51,7 +55,10 @@ class BookingsController < ApplicationController
 
 	end
 
-	def index
+	def tickets
+	  @booking = Booking.find_by(id: params[:id])
+	  @flight = @booking.flight
+	  @tickets = @booking.tickets
 	end
 
 
