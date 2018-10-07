@@ -15,9 +15,9 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   config.action_mailer.default_url_options = { host: 'heroku.com'}
-  config.action_mailer.delivery_method = :stmp
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address        => 'smpt.sendgrid.net'
+    :address        => 'smtp.sendgrid.net',
     :port           => '587',
     :authentication => :plain,
     :user_name      => ENV['SENDGRID_USERNAME'],
