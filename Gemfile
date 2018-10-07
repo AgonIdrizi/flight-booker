@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 
 gem 'rails',            '~> 5.2.1'
-
+gem 'sendgrid-ruby'
 gem 'puma',             '~> 3.11'
 gem 'jquery-rails'     
 gem 'bootstrap-sass',   '~> 3.3.7'
@@ -58,6 +58,7 @@ group :test do
 end
 
 group :production do
+  
   gem 'pg', '~> 1.1.0'
   
 end
